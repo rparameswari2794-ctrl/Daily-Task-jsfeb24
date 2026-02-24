@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>8 Advanced JS Projects</title>
+<style>
+body { font-family: Arial; margin:20px; }
+section { border:1px solid #ccc; padding:15px; margin-bottom:30px; }
+.column { width:30%; min-height:120px; padding:10px; border:1px dashed gray; display:inline-block; vertical-align:top; }
+.task { padding:5px; margin:5px; background:#eee; cursor:grab; }
+.dark { background:#222; color:white; }
+.blue { background:#0d6efd; color:white; }
+.sidebar { width:250px; border:1px solid #ccc; padding:20px; }
+.comment { margin-left:20px; border-left:2px solid #ccc; padding-left:10px; }
+.dropdown { width:200px; border:1px solid #ccc; padding:5px; cursor:pointer; position:relative; }
+.options { display:none; border:1px solid #ccc; position:absolute; width:100%; background:white; }
+.options div { padding:5px; }
+.options div:hover { background:#d2d1d1; }
+.show { display:block; }
+table { border-collapse: collapse; }
+th, td { border:1px solid black; padding:5px; cursor:pointer; }
+</style>
+</head>
+<body>
+
+<!-- 1. Kanban Board -->
+<section>
+<h2>1. Kanban Board</h2>
+<input id="taskInput" placeholder="New task">
+<button onclick="addTask()">Add</button><br><br>
+
+<div class="column" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">Todo</div>
+<div class="column" id="progress" ondrop="drop(event)" ondragover="allowDrop(event)">In Progress</div>
+<div class="column" id="done" ondrop="drop(event)" ondragover="allowDrop(event)">Done</div>
+</section>
+
+<!-- 2. Dynamic Form Builder -->
+<section>
+<h2>2. Dynamic Form Builder</h2>
+<div id="formArea"></div>
+<button onclick="addField()">Add Field</button>
+</section>
+
+<!-- 3. Shopping Cart -->
+<section>
+<h2>3. Shopping Cart</h2>
+<div class="item" data-price="100">Item A - ₹100 
+<input type="number" class="qty" value="1" min="1" oninput="updateTotal()">
+</div>
+<div class="item" data-price="200">Item B - ₹200 
+<input type="number" class="qty" value="1" min="1" oninput="updateTotal()">
+</div>
+<p>Total: ₹<span id="total">300</span></p>
+</section>
+
+<!-- 4. Sortable Table -->
+<section>
+<h2>4. Sortable Table</h2>
+<table id="myTable">
+<thead>
+<tr>
+<th onclick="sortTable(0)">Name</th>
+<th onclick="sortTable(1)">Age</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Ravi</td><td>25</td></tr>
+<tr><td>Anu</td><td>22</td></tr>
+<tr><td>Kiran</td><td>30</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- 5. Multi Theme -->
+<section>
+<h2>5. Theme Switcher</h2>
+<button onclick="setTheme('')">Light</button>
+<button onclick="setTheme('dark')">Dark</button>
+<button onclick="setTheme('blue')">Blue</button>
+</section>
+
+<!-- 6. Dynamic Sidebar -->
+<section>
+<h2>6. Dynamic Sidebar</h2>
+<ul id="sidebar" class="sidebar"></ul>
+</section>
+
+<!-- 7. Comment System -->
+<section>
+<h2>7. Comment System</h2>
+<input id="commentInput" placeholder="Write comment">
+<button onclick="addComment()">Add</button>
+<div id="comments"></div>
+</section>
+
+<!-- 8. Custom Dropdown -->
+<section>
+<h2>8. Custom Dropdown</h2>
+<div class="dropdown" onclick="toggleDropdown()">
+<span id="selected">Select Option</span>
+<div class="options" id="options">
+<div onclick="chooseOption(event)">Option 1</div>
+<div onclick="chooseOption(event)">Option 2</div>
+<div onclick="chooseOption(event)">Option 3</div>
+</div>
+</div>
+</section>
+
+<script>
+
+// 1. Kanban
+let id = 0;
+function addTask() {
+const val = document.getElementById("taskInput").value;
+if(!val) return;
+const div = document.createElement("div");
+div.className="task";
+div.id="task"+id++;
+div.draggable=true;
+div.ondragstart=drag;
+div.innerText=val;
+document.getElementById("todo").appendChild(div);
+}
+
+function allowDrop(e){ e.preventDefault(); }
+function drag(e){ e.dataTransfer.setData("text", e.target.id); }
+function drop(e){
+    e.preventDefault();
+    const data = e.dataTransfer.getData("text");
+    const task = document.getElementById(data);
+
+    const column = e.target.closest(".column"); // safer
+    if(column){
+        column.appendChild(task);
+    }
+}
+
+// 2. Dynamic Form
+function addField(){
+const div=document.createElement("div");
+div.innerHTML=`<input type="text"> 
+<button onclick="this.parentElement.remove()">Remove</button>`;
+document.getElementById("formArea").appendChild(div);
+}
+
+// 3. Cart
+function updateTotal(){
+let total=0;
+document.querySelectorAll(".item").forEach(item=>{
+const price=parseFloat(item.dataset.price);
+const qty=item.querySelector(".qty").value;
+total+=price*qty;
+});
+document.getElementById("total").innerText=total;
+}
+updateTotal();
+
+// 4. Sort Table
+let sortDirections = {};
+
+function sortTable(columnIndex) {
+    const table = document.getElementById("myTable");
+    const tbody = table.querySelector("tbody");
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+
+    // Initialize column direction if first time
+    if (sortDirections[columnIndex] === undefined) {
+        sortDirections[columnIndex] = true; // first click = ascending
+    } else {
+        sortDirections[columnIndex] = !sortDirections[columnIndex];
+    }
+
+    const asc = sortDirections[columnIndex];
+
+    rows.sort((a, b) => {
+        let x = a.cells[columnIndex].innerText.trim();
+        let y = b.cells[columnIndex].innerText.trim();
+
+        // Numeric sort
+        if (!isNaN(x) && !isNaN(y)) {
+            return asc ? Number(x) - Number(y) : Number(y) - Number(x);
+        }
+
+        // String sort
+        return asc
+            ? x.localeCompare(y)
+            : y.localeCompare(x);
+    });
+
+    // Reset arrows
+    document.querySelectorAll("#myTable th").forEach((th, i) => {
+        th.textContent = th.textContent.replace(" ▲", "").replace(" ▼", "");
+        if (i === columnIndex) {
+            th.textContent += asc ? " ▲" : " ▼";
+        }
+    });
+
+    // Re-append sorted rows
+    rows.forEach(row => tbody.appendChild(row));
+}
+
+// 5. Theme
+function setTheme(theme){
+document.body.className=theme;
+localStorage.setItem("theme",theme);
+}
+window.onload=()=>{
+const saved=localStorage.getItem("theme");
+if(saved) document.body.className=saved;
+}
+
+// 6. Sidebar
+const menu=["Dashboard","Users","Settings"];
+menu.forEach(item=>{
+  const li=document.createElement("li");
+  li.innerText=item;
+  document.getElementById("sidebar").appendChild(li);
+});
+
+
+// 7. Comments
+function addComment(){
+const text=document.getElementById("commentInput").value;
+if(!text) return;
+const div=document.createElement("div");
+div.innerHTML=`<p>${text}</p>
+<button onclick="reply(this)">Reply</button>
+<div class="comment"></div>`;
+document.getElementById("comments").appendChild(div);
+document.getElementById("commentInput").value="";
+}
+
+function reply(btn){
+const text=prompt("Reply:");
+if(!text) return;
+const p=document.createElement("p");
+p.innerText=text;
+btn.nextElementSibling.appendChild(p);
+}
+
+// 8. Dropdown
+function toggleDropdown(){
+document.getElementById("options").classList.toggle("show");
+}
+function chooseOption(e){
+e.stopPropagation();
+document.getElementById("selected").innerText=e.target.innerText;
+document.getElementById("options").classList.remove("show");
+}
+
+</script>
+
+</body>
+</html>
