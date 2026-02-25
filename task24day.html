@@ -1,254 +1,1869 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>8 Advanced JS Projects</title>
-<style>
-body { font-family: Arial; margin:20px; }
-section { border:1px solid #ccc; padding:15px; margin-bottom:30px; }
-.column { width:30%; min-height:120px; padding:10px; border:1px dashed gray; display:inline-block; vertical-align:top; }
-.task { padding:5px; margin:5px; background:#eee; cursor:grab; }
-.dark { background:#222; color:white; }
-.blue { background:#0d6efd; color:white; }
-.sidebar { width:250px; border:1px solid #ccc; padding:20px; }
-.comment { margin-left:20px; border-left:2px solid #ccc; padding-left:10px; }
-.dropdown { width:200px; border:1px solid #ccc; padding:5px; cursor:pointer; position:relative; }
-.options { display:none; border:1px solid #ccc; position:absolute; width:100%; background:white; }
-.options div { padding:5px; }
-.options div:hover { background:#d2d1d1; }
-.show { display:block; }
-table { border-collapse: collapse; }
-th, td { border:1px solid black; padding:5px; cursor:pointer; }
-</style>
+    <meta charset="UTF-8">
+    <title>50 JavaScript Projects</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            transition: all 0.3s ease;
+        }
+
+        body.dark {
+            background: #222;
+            color: white;
+        }
+
+        body.blue {
+            background: #0d6efd;
+            color: white;
+        }
+
+        section {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        .column {
+            width: 30%;
+            min-height: 150px;
+            padding: 10px;
+            border: 1px dashed gray;
+            display: inline-block;
+            vertical-align: top;
+            background: #f9f9f9;
+        }
+
+        .task {
+            padding: 8px;
+            margin: 5px;
+            background: #007bff;
+            color: white;
+            cursor: grab;
+            border-radius: 3px;
+        }
+
+        .sidebar {
+            width: 250px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            list-style: none;
+        }
+
+        .sidebar li {
+            padding: 8px;
+            margin: 5px 0;
+            background: #f0f0f0;
+            cursor: pointer;
+        }
+
+        .comment {
+            margin-left: 20px;
+            border-left: 2px solid #ccc;
+            padding-left: 10px;
+            margin-top: 10px;
+        }
+
+        .dropdown {
+            width: 200px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            cursor: pointer;
+            position: relative;
+            background: white;
+        }
+
+        .options {
+            display: none;
+            border: 1px solid #ccc;
+            position: absolute;
+            width: 100%;
+            background: white;
+            left: 0;
+            top: 100%;
+        }
+
+        .options div {
+            padding: 8px;
+        }
+
+        .options div:hover {
+            background: #e0e0e0;
+        }
+
+        .show {
+            display: block;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        th {
+            background: #f2f2f2;
+        }
+
+        .vote-option {
+            margin: 10px 0;
+        }
+
+        .vote-bar-container {
+            background: #eee;
+            height: 30px;
+            margin: 5px 0;
+            position: relative;
+            border-radius: 3px;
+        }
+
+        .vote-bar {
+            height: 100%;
+            width: 0;
+            background: #4CAF50;
+            transition: width 0.6s ease;
+            border-radius: 3px;
+        }
+
+        .vote-percent {
+            position: absolute;
+            right: 10px;
+            top: 5px;
+            font-size: 14px;
+        }
+
+        #quizSection {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-top: 10px;
+            max-width: 400px;
+        }
+
+        .quiz-option {
+            display: block;
+            width: 100%;
+            margin: 5px 0;
+            padding: 8px;
+            cursor: pointer;
+            background: #f2f2f2;
+            border: none;
+            border-radius: 3px;
+            text-align: left;
+        }
+
+        .quiz-option:hover {
+            background: #ddd;
+        }
+
+        #quizTimer {
+            font-weight: bold;
+            color: red;
+            font-size: 18px;
+        }
+
+        .seat-container {
+            display: grid;
+            grid-template-columns: repeat(8, 40px);
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .seat {
+            width: 40px;
+            height: 40px;
+            background: #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .seat.selected {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .seat.booked {
+            background: #444;
+            cursor: not-allowed;
+            color: white;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 300px;
+            margin: 10px 0;
+        }
+
+        .calendar-days,
+        .calendar-dates {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            max-width: 300px;
+            text-align: center;
+        }
+
+        .calendar-days div {
+            font-weight: bold;
+            padding: 8px;
+        }
+
+        .calendar-dates div {
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .calendar-dates div:hover {
+            background: #eee;
+        }
+
+        .today {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .selected-date {
+            background: #333;
+            color: white;
+        }
+
+        .drop-area {
+            border: 2px dashed #888;
+            padding: 30px;
+            text-align: center;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .drop-area.dragover {
+            background: #f0f0f0;
+            border-color: #333;
+        }
+
+        .preview-container {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .preview-container img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border: 1px solid #ccc;
+            padding: 3px;
+            border-radius: 5px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .box {
+            background: white;
+            width: 300px;
+            padding: 20px;
+            margin: 100px auto;
+            border-radius: 5px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translate(-50%, 100%);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+        }
+
+        input, button, select, textarea {
+            margin: 5px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .accordion-header {
+            width: 100%;
+            padding: 12px;
+            background: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            margin-top: 5px;
+            border-radius: 3px;
+        }
+
+        .accordion-content {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.4s ease;
+            background: #f4f4f4;
+            padding: 0 10px;
+            border-radius: 0 0 3px 3px;
+        }
+
+        .accordion-item.active .accordion-content {
+            padding: 10px;
+            max-height: 200px;
+        }
+
+        #pagination {
+            margin: 10px 0;
+        }
+
+        #pagination button {
+            margin: 2px;
+            padding: 5px 10px;
+        }
+
+        .skill {
+            height: 30px;
+            margin: 5px 0;
+            background: #f0f0f0;
+            line-height: 30px;
+            padding-left: 10px;
+            border-radius: 3px;
+            transition: width 1s;
+            width: 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    </style>
 </head>
+
 <body>
+    <h1>50 JavaScript Projects</h1>
 
-<!-- 1. Kanban Board -->
+    <!-- 1. Kanban Board -->
+    <section>
+        <h2>1. Kanban Board</h2>
+        <input id="taskInput" placeholder="New task">
+        <button onclick="addTask()">Add</button>
+        <div style="margin-top: 10px;">
+            <div class="column" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">Todo</div>
+            <div class="column" id="progress" ondrop="drop(event)" ondragover="allowDrop(event)">In Progress</div>
+            <div class="column" id="done" ondrop="drop(event)" ondragover="allowDrop(event)">Done</div>
+        </div>
+    </section>
+
+    <!-- 2. Dynamic Form Builder -->
+    <section>
+        <h2>2. Dynamic Form Builder</h2>
+        <div id="formArea"></div>
+        <button onclick="addField()">Add Field</button>
+    </section>
+
+    <!-- 3. Shopping Cart -->
+    <section>
+        <h2>3. Shopping Cart</h2>
+        <div class="item" data-price="100">Item A - ₹100
+            <input type="number" class="qty" value="1" min="1" oninput="updateTotal()">
+        </div>
+        <div class="item" data-price="200">Item B - ₹200
+            <input type="number" class="qty" value="1" min="1" oninput="updateTotal()">
+        </div>
+        <p>Total: ₹<span id="total">300</span></p>
+    </section>
+
+    <!-- 4. Sortable Table -->
+    <section>
+        <h2>4. Sortable Table</h2>
+        <table id="myTable">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Name</th>
+                    <th onclick="sortTable(1)">Age</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Ravi</td><td>25</td></tr>
+                <tr><td>Anu</td><td>22</td></tr>
+                <tr><td>Kiran</td><td>30</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 5. Theme Switcher -->
+    <section>
+        <h2>5. Theme Switcher</h2>
+        <button onclick="setTheme('')">Light</button>
+        <button onclick="setTheme('dark')">Dark</button>
+        <button onclick="setTheme('blue')">Blue</button>
+    </section>
+
+    <!-- 6. Dynamic Sidebar -->
+    <section>
+        <h2>6. Dynamic Sidebar</h2>
+        <ul id="sidebar" class="sidebar"></ul>
+    </section>
+
+    <!-- 7. Comment System -->
+    <section>
+        <h2>7. Comment System</h2>
+        <input id="commentInput" placeholder="Write comment">
+        <button onclick="addComment()">Add</button>
+        <div id="comments"></div>
+    </section>
+
+    <!-- 8. Custom Dropdown -->
+    <section>
+        <h2>8. Custom Dropdown</h2>
+        <div class="dropdown" onclick="toggleDropdown()">
+            <span id="selected">Select Option</span>
+            <div class="options" id="options">
+                <div onclick="chooseOption(event)">Option 1</div>
+                <div onclick="chooseOption(event)">Option 2</div>
+                <div onclick="chooseOption(event)">Option 3</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. Markdown Previewer -->
+    <section>
+        <h2>9. Live Markdown Previewer</h2>
+        <textarea id="mdInput" rows="4" placeholder="# Heading" style="width:100%"></textarea>
+        <div id="mdPreview" style="border:1px solid #ccc; padding:10px; margin-top:10px;"></div>
+    </section>
+
+    <!-- 10. Breadcrumb -->
+    <section>
+        <h2>10. Dynamic Breadcrumb Generator</h2>
+        <div>
+            <button data-page="Home">Home</button>
+            <button data-page="Products">Products</button>
+            <button data-page="Details">Details</button>
+        </div>
+        <p id="breadcrumbOutput"></p>
+    </section>
+
+    <!-- 11. Notes App -->
+    <section>
+        <h2>11. Notes App</h2>
+        <input id="noteInput" placeholder="Write note">
+        <button id="addNoteBtn">Add Note</button>
+        <input id="searchNote" placeholder="Search notes">
+        <div id="notesContainer"></div>
+    </section>
+
+    <!-- 12. Expense Tracker -->
+    <section>
+        <h2>12. Expense Tracker</h2>
+        <input id="expenseName" placeholder="Expense name">
+        <input id="expenseAmount" type="number" placeholder="Amount">
+        <select id="expenseCategory">
+            <option>Food</option>
+            <option>Travel</option>
+            <option>Shopping</option>
+        </select>
+        <button id="addExpenseBtn">Add Expense</button>
+        <div class="expense-summary" id="expenseSummary"></div>
+    </section>
+
+    <!-- 13. Student Result Calculator -->
+    <section>
+        <h2>13. Student Result Calculator</h2>
+        <input id="studentMarks" type="number" placeholder="Enter marks">
+        <button id="calcResultBtn">Calculate</button>
+        <p id="studentResult"></p>
+    </section>
+
+    <!-- 14. Contact Manager -->
+    <section>
+        <h2>14. Contact Manager</h2>
+        <input id="contactName" placeholder="Name">
+        <input id="contactPhone" placeholder="Phone">
+        <button id="addContactBtn">Add Contact</button>
+        <input id="searchContact" placeholder="Search contacts">
+        <div id="contactContainer"></div>
+    </section>
+
+    <!-- 15. Product Filter System -->
+    <section>
+        <h2>15. Product Filter</h2>
+        <select id="filterCategory">
+            <option value="">All</option>
+            <option>Electronics</option>
+            <option>Clothing</option>
+        </select>
+        <input id="minPrice" type="number" placeholder="Min price">
+        <input id="maxPrice" type="number" placeholder="Max price">
+        <div id="productContainer"></div>
+    </section>
+
+    <!-- 16. Dynamic Table -->
+    <section>
+        <h2>16. Dynamic Table</h2>
+        <input id="tableSearch" placeholder="Search...">
+        <table border="1" width="100%" id="dynamicTable">
+            <thead>
+                <tr><th>Name</th><th>Age</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div id="pagination"></div>
+    </section>
+
+    <!-- 17. Password Manager -->
+    <section>
+        <h2>17. Password Manager</h2>
+        <input id="pwdSite" placeholder="Website">
+        <input id="pwdValue" placeholder="Password">
+        <button id="savePwd">Save</button>
+        <div id="pwdList"></div>
+    </section>
+
+    <!-- 18. Bookmark Manager -->
+    <section>
+        <h2>18. Bookmark Manager</h2>
+        <input id="bmTitle" placeholder="Title">
+        <input id="bmUrl" placeholder="URL">
+        <button id="addBookmark">Add</button>
+        <div id="bookmarkList"></div>
+    </section>
+
+    <!-- 19. Cart System -->
+    <section>
+        <h2>19. Cart System</h2>
+        <button onclick="addToCart('Product A',100)">Add Product A</button>
+        <button onclick="addToCart('Product B',200)">Add Product B</button>
+        <div id="cartContainer"></div>
+    </section>
+
+    <!-- 20. Auto Save Form -->
+    <section>
+        <h2>20. Auto Save Draft</h2>
+        <textarea id="draftArea" rows="4" placeholder="Start typing..." style="width:100%"></textarea>
+        <p>Auto saved!</p>
+    </section>
+
+    <!-- 21. Carousel -->
+    <section>
+        <h2>21. Image Carousel</h2>
+        <img id="carouselImg" width="300" height="200" style="object-fit:cover">
+        <br>
+        <button id="prevBtn">Prev</button>
+        <button id="nextBtn">Next</button>
+    </section>
+
+    <!-- 22. Scroll Progress -->
+    <div style="position:fixed;top:0;left:0;width:100%;height:5px;background:#ddd;z-index:1000;">
+        <div id="scrollProgress" style="height:5px;background:green;width:0%"></div>
+    </div>
+
+    <!-- 23. Parallax -->
+    <section id="parallaxSection" style="height:400px;background-image:url('kidswinter.webp');background-size:cover;background-position:center;margin-bottom:20px;">
+        <h2 style="color:white;padding:100px;text-align:center;">23. Parallax Section</h2>
+    </section>
+
+    <!-- 24. Skill Progress -->
+    <section>
+        <h2>24. Skill Progress Animation</h2>
+        <div class="skill" data-skill="90">HTML 90%</div>
+        <div class="skill" data-skill="80">CSS 80%</div>
+        <div class="skill" data-skill="75">JavaScript 75%</div>
+    </section>
+
+    <!-- 25. Floating Chat -->
+    <div id="chatWidget" style="position:fixed;bottom:20px;right:20px;width:250px;z-index:1000;">
+        <button id="chatToggle" style="width:100%;background:#007bff;">Chat</button>
+        <div id="chatBox" style="display:none;border:1px solid #ccc;background:white;padding:10px;margin-top:5px;border-radius:5px;">
+            <div id="chatMessages" style="height:150px;overflow-y:auto;border:1px solid #eee;margin-bottom:5px;padding:5px;"></div>
+            <input id="chatInput" placeholder="Type message..." style="width:70%">
+            <button id="sendChat">Send</button>
+        </div>
+    </div>
+
+    <!-- 26. Typewriter -->
+    <section>
+        <h2>26. Typewriter Effect</h2>
+        <p id="type" style="font-size:18px; min-height:30px;"></p>
+    </section>
+
+    <!-- 27. Modal -->
+    <section>
+        <h2>27. Modal</h2>
+        <button onclick="openM()">Open Modal</button>
+        <div class="modal" id="modal">
+            <div class="box">
+                <h3>Modal Content</h3>
+                <p>Hello! This is a modal dialog.</p>
+                <button onclick="closeM()">Close</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 28. Tooltip -->
+    <section>
+        <h2>28. Tooltip</h2>
+        <button data-tip="Tooltip Text" onmouseenter="showTip(this)" onmouseleave="hideTip(this)">Hover Me</button>
+    </section>
+
+    <!-- 29. Dynamic Accordion -->
+    <section>
+        <h2>29. Dynamic Accordion</h2>
+        <div id="accordion">
+            <div class="accordion-item">
+                <button class="accordion-header">Section 1</button>
+                <div class="accordion-content">
+                    <p>This is content for section 1. Lorem ipsum dolor sit amet.</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header">Section 2</button>
+                <div class="accordion-content">
+                    <p>This is content for section 2. Consectetur adipiscing elit.</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header">Section 3</button>
+                <div class="accordion-content">
+                    <p>This is content for section 3. Sed do eiusmod tempor.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 30. Page Transition -->
+    <section>
+        <h2>30. Page Transition</h2>
+        <button onclick="fade()">Fade Effect</button>
+    </section>
+
+    <!-- 31. Weather -->
+    <section>
+        <h2>31. Weather Display</h2>
+        <div id="weather" style="font-size:20px;">Chennai 32°C</div>
+    </section>
+
+    <!-- 32. Voting System -->
+    <section>
+        <h2>32. Voting System</h2>
+        <div id="voteOptions"></div>
+        <button onclick="submitVote()">Submit Vote</button>
+        <div id="voteResults" style="margin-top:15px;"></div>
+    </section>
+
+    <!-- 33. Quiz App -->
+    <section>
+        <h2>33. Quiz App</h2>
+        <div id="quizSection">
+            <div id="quizTimer">Time: 15</div>
+            <div id="quizQuestion"></div>
+            <div id="quizOptions"></div>
+            <div id="quizScore">Score: 0</div>
+            <button onclick="startQuiz()">Start Quiz</button>
+        </div>
+    </section>
+
+    <!-- 34. Seat Booking -->
+    <section>
+        <h2>34. Seat Booking UI</h2>
+        <div id="seatContainer" class="seat-container"></div>
+        <p>Selected Seats: <span id="seatCount">0</span></p>
+        <p>Total Price: ₹<span id="seatTotal">0</span></p>
+        <button onclick="confirmBooking()">Confirm Booking</button>
+    </section>
+
+    <!-- 35. Calendar UI -->
+    <section>
+        <h2>35. Calendar UI</h2>
+        <div class="calendar-header">
+            <button onclick="changeMonth(-1)">◀</button>
+            <span id="calendarMonth"></span>
+            <button onclick="changeMonth(1)">▶</button>
+        </div>
+        <div id="calendarDays" class="calendar-days"></div>
+        <div id="calendarDates" class="calendar-dates"></div>
+    </section>
+
+    <!-- 36. Invoice Generator -->
+    <section>
+        <h2>36. Invoice Generator</h2>
+        <input type="text" id="itemName" placeholder="Item Name">
+        <input type="number" id="itemQty" placeholder="Qty" min="1">
+        <input type="number" id="itemPrice" placeholder="Price" min="0">
+        <button onclick="addItem()">Add Item</button>
+        <table border="1" cellpadding="5" style="margin-top:10px; width:100%;">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody id="invoiceBody"></tbody>
+        </table>
+        <p>Subtotal: ₹<span id="subtotal">0</span></p>
+        <p>Tax (18% GST): ₹<span id="tax">0</span></p>
+        <h3>Grand Total: ₹<span id="grandTotal">0</span></h3>
+    </section>
+
+    <!-- 37. Drag & Drop File Preview -->
+    <section>
+        <h2>37. Drag & Drop File Preview</h2>
+        <div id="dropArea" class="drop-area">Drag & Drop Files Here</div>
+        <input type="file" id="fileInput" multiple style="margin-top:10px;">
+        <div id="previewContainer" class="preview-container"></div>
+    </section>
+
+    <!-- 38. Product Comparison -->
+    <section>
+        <h2>38. Product Comparison</h2>
+        <div id="productList"></div>
+        <button onclick="compareProducts()">Compare Selected</button>
+        <div id="comparisonTable" style="margin-top:15px;"></div>
+    </section>
+
+    <!-- 39. Checkbox Filter -->
+    <section>
+        <h2>39. Checkbox Filter</h2>
+        <input type="checkbox" onchange="filter39()"> Option A
+        <input type="checkbox" onchange="filter39()"> Option B
+    </section>
+
+    <!-- 40. Step Wizard -->
+    <section>
+        <h2>40. Step Wizard</h2>
+        <button onclick="nextStep()">Next Step</button>
+        <p id="stepTxt">Step 1 of 5</p>
+    </section>
+
+    <!-- 41. Simple Todo -->
+    <section>
+        <h2>41. Simple Todo</h2>
+        <input id="task41" placeholder="Task">
+        <button onclick="addTask41()">Add</button>
+        <div id="todo41"></div>
+    </section>
+
+    <!-- 42. Dashboard -->
+    <section>
+        <h2>42. Dashboard</h2>
+        <p>Welcome to your dashboard! This is a placeholder section.</p>
+    </section>
+
+    <!-- 43. Toast Notification -->
+    <section>
+        <h2>43. Toast Notification</h2>
+        <button onclick="showToast()">Show Toast</button>
+    </section>
+
+    <!-- 44. Blog Filter -->
+    <section>
+        <h2>44. Blog Filter</h2>
+        <input oninput="filterBlog(this.value)" placeholder="Search blog...">
+        <div id="blog"></div>
+    </section>
+
+   <!-- 45. Price Calculator -->
 <section>
-<h2>1. Kanban Board</h2>
-<input id="taskInput" placeholder="New task">
-<button onclick="addTask()">Add</button><br><br>
-
-<div class="column" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">Todo</div>
-<div class="column" id="progress" ondrop="drop(event)" ondragover="allowDrop(event)">In Progress</div>
-<div class="column" id="done" ondrop="drop(event)" ondragover="allowDrop(event)">Done</div>
+    <h2>45. Price Calculator</h2>
+    
+    <div style="margin-bottom:15px;">
+        <input type="number" id="priceAmount" placeholder="Enter amount" min="0" value="1000" style="width:150px;">
+        
+        <select id="priceTax" style="margin-left:10px;">
+            <option value="0">No Tax</option>
+            <option value="5">5% GST</option>
+            <option value="12">12% GST</option>
+            <option value="18" selected>18% GST</option>
+            <option value="28">28% GST</option>
+        </select>
+    </div>
+    
+    <div style="margin-bottom:15px;">
+        <label><input type="checkbox" id="discountCheck" onchange="toggleDiscount()"> Apply Discount</label>
+        <input type="number" id="discountPercent" placeholder="Discount %" min="0" max="100" value="10" disabled style="width:80px; margin-left:10px;">
+    </div>
+    
+    <div style="margin-bottom:15px;">
+        <label><input type="radio" name="shipping" value="0" checked onchange="updateShipping()"> Free Shipping</label>
+        <label><input type="radio" name="shipping" value="50" onchange="updateShipping()"> Standard ($50)</label>
+        <label><input type="radio" name="shipping" value="100" onchange="updateShipping()"> Express ($100)</label>
+    </div>
+    
+    <button onclick="priceCalc()" style="background:#28a745;">Calculate Price</button>
+    <button onclick="resetCalculator()" style="background:#6c757d;">Reset</button>
+    
+    <div id="priceOut" style="margin-top:15px; padding:15px; background:#f8f9fa; border-radius:5px;"></div>
 </section>
 
-<!-- 2. Dynamic Form Builder -->
+    <!-- 46. Leaderboard -->
+    <section>
+        <h2>46. Leaderboard</h2>
+        <button onclick="rank()">Show Rankings</button>
+        <div id="rankOut"></div>
+    </section>
+
+    <!-- 47. Tabs -->
+    <section>
+        <h2>47. Tabs</h2>
+        <a href="#tab1">Tab1</a> | <a href="#tab2">Tab2</a>
+        <div id="tab1" class="tab" style="display:block; padding:10px; border:1px solid #ccc; margin-top:10px;">Content 1</div>
+        <div id="tab2" class="tab" style="display:none; padding:10px; border:1px solid #ccc; margin-top:10px;">Content 2</div>
+    </section>
+
+    <!-- 48. Poll -->
+    <section>
+        <h2>48. Poll</h2>
+        <button onclick="pollVote()">Vote in Poll</button>
+    </section>
+
+    <!-- 49. Mini Chat -->
+    <section>
+        <h2>49. Mini Chat</h2>
+        <input id="mini" placeholder="Type message...">
+        <button onclick="miniChat()">Send</button>
+        <div id="miniOut" style="border:1px solid #ccc; min-height:50px; padding:10px; margin-top:10px;"></div>
+    </section>
+
+    <!-- 50. Simple Back to Top -->
 <section>
-<h2>2. Dynamic Form Builder</h2>
-<div id="formArea"></div>
-<button onclick="addField()">Add Field</button>
+    <h2>50. Back to Top</h2>
+    <button onclick="window.scrollTo({top:0, behavior:'smooth'})" 
+            style="background:#007bff; padding:8px 20px;">
+        ↑ Back to Top
+    </button>
 </section>
 
-<!-- 3. Shopping Cart -->
-<section>
-<h2>3. Shopping Cart</h2>
-<div class="item" data-price="100">Item A - ₹100 
-<input type="number" class="qty" value="1" min="1" oninput="updateTotal()">
-</div>
-<div class="item" data-price="200">Item B - ₹200 
-<input type="number" class="qty" value="1" min="1" oninput="updateTotal()">
-</div>
-<p>Total: ₹<span id="total">300</span></p>
-</section>
+    <script>
+        // 1. Kanban Board
+        let taskId = 0;
+        function addTask() {
+            const val = document.getElementById("taskInput").value;
+            if (!val) return;
+            const div = document.createElement("div");
+            div.className = "task";
+            div.id = "task" + taskId++;
+            div.draggable = true;
+            div.ondragstart = drag;
+            div.innerText = val;
+            document.getElementById("todo").appendChild(div);
+            document.getElementById("taskInput").value = "";
+        }
 
-<!-- 4. Sortable Table -->
-<section>
-<h2>4. Sortable Table</h2>
-<table id="myTable">
-<thead>
-<tr>
-<th onclick="sortTable(0)">Name</th>
-<th onclick="sortTable(1)">Age</th>
-</tr>
-</thead>
-<tbody>
-<tr><td>Ravi</td><td>25</td></tr>
-<tr><td>Anu</td><td>22</td></tr>
-<tr><td>Kiran</td><td>30</td></tr>
-</tbody>
-</table>
-</section>
+        function allowDrop(e) { e.preventDefault(); }
+        function drag(e) { e.dataTransfer.setData("text", e.target.id); }
+        function drop(e) {
+            e.preventDefault();
+            const data = e.dataTransfer.getData("text");
+            const task = document.getElementById(data);
+            const column = e.target.closest(".column");
+            if (column) column.appendChild(task);
+        }
 
-<!-- 5. Multi Theme -->
-<section>
-<h2>5. Theme Switcher</h2>
-<button onclick="setTheme('')">Light</button>
-<button onclick="setTheme('dark')">Dark</button>
-<button onclick="setTheme('blue')">Blue</button>
-</section>
+        // 2. Dynamic Form Builder
+        function addField() {
+            const div = document.createElement("div");
+            div.innerHTML = `<input type="text" placeholder="Field"> <button onclick="this.parentElement.remove()">Remove</button>`;
+            document.getElementById("formArea").appendChild(div);
+        }
 
-<!-- 6. Dynamic Sidebar -->
-<section>
-<h2>6. Dynamic Sidebar</h2>
-<ul id="sidebar" class="sidebar"></ul>
-</section>
+        // 3. Shopping Cart
+        function updateTotal() {
+            let total = 0;
+            document.querySelectorAll(".item").forEach(item => {
+                const price = parseFloat(item.dataset.price);
+                const qty = item.querySelector(".qty").value;
+                total += price * qty;
+            });
+            document.getElementById("total").innerText = total;
+        }
 
-<!-- 7. Comment System -->
-<section>
-<h2>7. Comment System</h2>
-<input id="commentInput" placeholder="Write comment">
-<button onclick="addComment()">Add</button>
-<div id="comments"></div>
-</section>
+        // 4. Sortable Table
+        let sortDirections = {};
+        function sortTable(columnIndex) {
+            const table = document.getElementById("myTable");
+            const tbody = table.querySelector("tbody");
+            const rows = Array.from(tbody.querySelectorAll("tr"));
+            
+            if (sortDirections[columnIndex] === undefined) sortDirections[columnIndex] = true;
+            else sortDirections[columnIndex] = !sortDirections[columnIndex];
+            
+            const asc = sortDirections[columnIndex];
+            
+            rows.sort((a, b) => {
+                let x = a.cells[columnIndex].innerText.trim();
+                let y = b.cells[columnIndex].innerText.trim();
+                
+                if (!isNaN(x) && !isNaN(y)) {
+                    return asc ? Number(x) - Number(y) : Number(y) - Number(x);
+                }
+                return asc ? x.localeCompare(y) : y.localeCompare(x);
+            });
+            
+            document.querySelectorAll("#myTable th").forEach((th, i) => {
+                th.textContent = th.textContent.replace(" ▲", "").replace(" ▼", "");
+                if (i === columnIndex) th.textContent += asc ? " ▲" : " ▼";
+            });
+            
+            rows.forEach(row => tbody.appendChild(row));
+        }
 
-<!-- 8. Custom Dropdown -->
-<section>
-<h2>8. Custom Dropdown</h2>
-<div class="dropdown" onclick="toggleDropdown()">
-<span id="selected">Select Option</span>
-<div class="options" id="options">
-<div onclick="chooseOption(event)">Option 1</div>
-<div onclick="chooseOption(event)">Option 2</div>
-<div onclick="chooseOption(event)">Option 3</div>
-</div>
-</div>
-</section>
+        // 5. Theme Switcher
+        function setTheme(theme) {
+            document.body.className = theme;
+            localStorage.setItem("theme", theme);
+        }
+        
+        window.onload = () => {
+            const saved = localStorage.getItem("theme");
+            if (saved) document.body.className = saved;
+        }
 
-<script>
+        // 6. Dynamic Sidebar
+        const menu = ["Dashboard", "Users", "Settings", "Profile"];
+        menu.forEach(item => {
+            const li = document.createElement("li");
+            li.innerText = item;
+            document.getElementById("sidebar").appendChild(li);
+        });
 
-// 1. Kanban
-let id = 0;
-function addTask() {
-const val = document.getElementById("taskInput").value;
-if(!val) return;
-const div = document.createElement("div");
-div.className="task";
-div.id="task"+id++;
-div.draggable=true;
-div.ondragstart=drag;
-div.innerText=val;
-document.getElementById("todo").appendChild(div);
-}
+        // 7. Comment System
+        function addComment() {
+            const text = document.getElementById("commentInput").value;
+            if (!text) return;
+            const div = document.createElement("div");
+            div.innerHTML = `<p>${text}</p>
+            <button onclick="reply(this)">Reply</button>
+            <div class="comment"></div>`;
+            document.getElementById("comments").appendChild(div);
+            document.getElementById("commentInput").value = "";
+        }
 
-function allowDrop(e){ e.preventDefault(); }
-function drag(e){ e.dataTransfer.setData("text", e.target.id); }
-function drop(e){
-    e.preventDefault();
-    const data = e.dataTransfer.getData("text");
-    const task = document.getElementById(data);
+        function reply(btn) {
+            const text = prompt("Reply:");
+            if (!text) return;
+            const p = document.createElement("p");
+            p.innerText = text;
+            btn.nextElementSibling.appendChild(p);
+        }
 
-    const column = e.target.closest(".column"); // safer
-    if(column){
-        column.appendChild(task);
+        // 8. Custom Dropdown
+        function toggleDropdown() {
+            document.getElementById("options").classList.toggle("show");
+        }
+        function chooseOption(e) {
+            e.stopPropagation();
+            document.getElementById("selected").innerText = e.target.innerText;
+            document.getElementById("options").classList.remove("show");
+        }
+
+        // 9. Markdown Preview
+        document.getElementById("mdInput").addEventListener("input", function() {
+            let text = this.value
+                .replace(/^# (.*$)/gim, '<h3>$1</h3>')
+                .replace(/\*\*(.*?)\*\*/gim, '<b>$1</b>')
+                .replace(/\*(.*?)\*/gim, '<i>$1</i>')
+                .replace(/\n/g, '<br>');
+            document.getElementById("mdPreview").innerHTML = text;
+        });
+
+        // 10. Breadcrumb
+        let crumbs = [];
+        document.querySelectorAll("[data-page]").forEach(btn => {
+            btn.addEventListener("click", () => {
+                crumbs.push(btn.dataset.page);
+                document.getElementById("breadcrumbOutput").textContent = crumbs.join(" > ");
+            });
+        });
+
+        // 11. Notes App
+        function renderNotes(filter = "") {
+            let notes = JSON.parse(localStorage.getItem("megaNotes")) || [];
+            const container = document.getElementById("notesContainer");
+            container.innerHTML = "";
+            notes.filter(n => n.toLowerCase().includes(filter.toLowerCase()))
+                .forEach((note, index) => {
+                    let div = document.createElement("div");
+                    div.className = "note-item";
+                    div.innerHTML = `${note} <button onclick="deleteNote(${index})">Delete</button>`;
+                    container.appendChild(div);
+                });
+        }
+        
+        function deleteNote(index) {
+            let notes = JSON.parse(localStorage.getItem("megaNotes"));
+            notes.splice(index, 1);
+            localStorage.setItem("megaNotes", JSON.stringify(notes));
+            renderNotes();
+        }
+        
+        document.getElementById("addNoteBtn").onclick = () => {
+            let notes = JSON.parse(localStorage.getItem("megaNotes")) || [];
+            notes.push(document.getElementById("noteInput").value);
+            localStorage.setItem("megaNotes", JSON.stringify(notes));
+            document.getElementById("noteInput").value = "";
+            renderNotes();
+        };
+        
+        document.getElementById("searchNote").addEventListener("input", e => renderNotes(e.target.value));
+        renderNotes();
+
+        // 12. Expense Tracker
+        let expenses = JSON.parse(localStorage.getItem("megaExpenses")) || [];
+        function renderExpenses() {
+            let summary = {};
+            expenses.forEach(e => { summary[e.category] = (summary[e.category] || 0) + e.amount; });
+            const summaryDiv = document.getElementById("expenseSummary");
+            summaryDiv.innerHTML = "";
+            for (let cat in summary) {
+                let div = document.createElement("div");
+                div.textContent = `${cat}: ₹${summary[cat]}`;
+                summaryDiv.appendChild(div);
+            }
+            localStorage.setItem("megaExpenses", JSON.stringify(expenses));
+        }
+        
+        document.getElementById("addExpenseBtn").onclick = () => {
+            let name = document.getElementById("expenseName").value;
+            let amount = Number(document.getElementById("expenseAmount").value);
+            let category = document.getElementById("expenseCategory").value;
+            if (name && amount) {
+                expenses.push({ name, amount, category });
+                renderExpenses();
+                document.getElementById("expenseName").value = "";
+                document.getElementById("expenseAmount").value = "";
+            }
+        };
+        renderExpenses();
+
+        // 13. Student Result Calculator
+        document.getElementById("calcResultBtn").onclick = () => {
+            let marks = Number(document.getElementById("studentMarks").value);
+            let grade = "Fail";
+            if (marks >= 90) grade = "A";
+            else if (marks >= 75) grade = "B";
+            else if (marks >= 50) grade = "C";
+            document.getElementById("studentResult").textContent = `Grade: ${grade} (${marks >= 50 ? "Pass" : "Fail"})`;
+        };
+
+        // 14. Contact Manager
+        let contacts = JSON.parse(localStorage.getItem("megaContacts")) || [];
+        function renderContacts(filter = "") {
+            const container = document.getElementById("contactContainer");
+            container.innerHTML = "";
+            contacts.filter(c => c.name.toLowerCase().includes(filter.toLowerCase()))
+                .forEach((c, index) => {
+                    let div = document.createElement("div");
+                    div.className = "contact-item";
+                    div.innerHTML = `${c.name} - ${c.phone} <button onclick="deleteContact(${index})">Delete</button>`;
+                    container.appendChild(div);
+                });
+            localStorage.setItem("megaContacts", JSON.stringify(contacts));
+        }
+        
+        function deleteContact(index) {
+            contacts.splice(index, 1);
+            renderContacts();
+        }
+        
+        document.getElementById("addContactBtn").onclick = () => {
+            contacts.push({
+                name: document.getElementById("contactName").value,
+                phone: document.getElementById("contactPhone").value
+            });
+            renderContacts();
+            document.getElementById("contactName").value = "";
+            document.getElementById("contactPhone").value = "";
+        };
+        
+        document.getElementById("searchContact").addEventListener("input", e => renderContacts(e.target.value));
+        renderContacts();
+
+        // 15. Product Filter
+        const products = [
+            { name: "Laptop", category: "Electronics", price: 50000 },
+            { name: "Shirt", category: "Clothing", price: 1500 },
+            { name: "Phone", category: "Electronics", price: 20000 },
+            { name: "Jeans", category: "Clothing", price: 2500 }
+        ];
+        
+        function renderProducts() {
+            let cat = document.getElementById("filterCategory").value;
+            let min = Number(document.getElementById("minPrice").value) || 0;
+            let max = Number(document.getElementById("maxPrice").value) || Infinity;
+            const container = document.getElementById("productContainer");
+            container.innerHTML = "";
+            products.filter(p => (!cat || p.category === cat) && p.price >= min && p.price <= max)
+                .forEach(p => {
+                    let div = document.createElement("div");
+                    div.textContent = `${p.name} - ₹${p.price}`;
+                    container.appendChild(div);
+                });
+        }
+        
+        document.getElementById("filterCategory").onchange = renderProducts;
+        document.getElementById("minPrice").oninput = renderProducts;
+        document.getElementById("maxPrice").oninput = renderProducts;
+        renderProducts();
+
+        // 16. Dynamic Table
+        const tableData = Array.from({ length: 30 }, (_, i) => ({ name: "User" + (i + 1), age: 20 + i }));
+        let currentPage = 1, rowsPerPage = 5;
+
+        function renderTable(filter = "") {
+            let filtered = tableData.filter(d => d.name.toLowerCase().includes(filter.toLowerCase()));
+            let tbody = document.querySelector("#dynamicTable tbody");
+            tbody.innerHTML = "";
+            let start = (currentPage - 1) * rowsPerPage;
+            filtered.slice(start, start + rowsPerPage).forEach(d => {
+                tbody.innerHTML += `<tr><td>${d.name}</td><td>${d.age}</td></tr>`;
+            });
+            renderPagination(filtered.length);
+        }
+        
+        function renderPagination(total) {
+            let pages = Math.ceil(total / rowsPerPage);
+            let pag = document.getElementById("pagination");
+            pag.innerHTML = "";
+            for (let i = 1; i <= pages; i++) {
+                pag.innerHTML += `<button onclick="currentPage=${i};renderTable()">${i}</button>`;
+            }
+        }
+        
+        document.getElementById("tableSearch").addEventListener("input", e => { currentPage = 1; renderTable(e.target.value); });
+        renderTable();
+
+        // 17. Password Manager
+        function encrypt(text) { return btoa(text); }
+        function decrypt(text) { return atob(text); }
+
+        function renderPasswords() {
+            let pwds = JSON.parse(localStorage.getItem("megaPwds") || "[]");
+            document.getElementById("pwdList").innerHTML = "";
+            pwds.forEach(p => {
+                document.getElementById("pwdList").innerHTML += `<div>${p.site} - ${decrypt(p.pwd)}</div>`;
+            });
+        }
+        
+        document.getElementById("savePwd").onclick = () => {
+            let pwds = JSON.parse(localStorage.getItem("megaPwds") || "[]");
+            pwds.push({ site: document.getElementById("pwdSite").value, pwd: encrypt(document.getElementById("pwdValue").value) });
+            localStorage.setItem("megaPwds", JSON.stringify(pwds));
+            renderPasswords();
+            document.getElementById("pwdSite").value = "";
+            document.getElementById("pwdValue").value = "";
+        };
+        renderPasswords();
+
+        // 18. Bookmark Manager
+        function renderBookmarks() {
+            let bms = JSON.parse(localStorage.getItem("megaBookmarks") || "[]");
+            document.getElementById("bookmarkList").innerHTML = "";
+            bms.forEach(b => {
+                document.getElementById("bookmarkList").innerHTML += `<div><a href="${b.url}" target="_blank">${b.title}</a></div>`;
+            });
+        }
+        
+        document.getElementById("addBookmark").onclick = () => {
+            let bms = JSON.parse(localStorage.getItem("megaBookmarks") || "[]");
+            bms.push({ title: document.getElementById("bmTitle").value, url: document.getElementById("bmUrl").value });
+            localStorage.setItem("megaBookmarks", JSON.stringify(bms));
+            renderBookmarks();
+            document.getElementById("bmTitle").value = "";
+            document.getElementById("bmUrl").value = "";
+        };
+        renderBookmarks();
+
+        // 19. Cart System
+        let cart = JSON.parse(localStorage.getItem("megaCart") || "[]");
+        window.addToCart = function(name, price) {
+            cart.push({ name, price });
+            localStorage.setItem("megaCart", JSON.stringify(cart));
+            renderCart();
+        }
+        
+        function renderCart() {
+            const container = document.getElementById("cartContainer");
+            container.innerHTML = "";
+            let total = 0;
+            cart.forEach(c => {
+                total += c.price;
+                container.innerHTML += `<div>${c.name} - ₹${c.price}</div>`;
+            });
+            container.innerHTML += `<b>Total: ₹${total}</b>`;
+        }
+        renderCart();
+
+        // 20. Auto Save
+        document.getElementById("draftArea").value = localStorage.getItem("megaDraft") || "";
+        document.getElementById("draftArea").addEventListener("input", function() {
+            localStorage.setItem("megaDraft", this.value);
+        });
+
+        // 21. Carousel with Local Images
+const images = [
+    "pattu.jpg",
+    "pattu1.jpg",
+    "readymade.webp"
+];
+let imgIndex = 0;
+
+function showImg() { 
+    const carouselImg = document.getElementById("carouselImg");
+    if (carouselImg) {
+        carouselImg.src = images[imgIndex];
+        // Optional: Add alt text for accessibility
+        carouselImg.alt = `Image ${imgIndex + 1}`;
     }
 }
 
-// 2. Dynamic Form
-function addField(){
-const div=document.createElement("div");
-div.innerHTML=`<input type="text"> 
-<button onclick="this.parentElement.remove()">Remove</button>`;
-document.getElementById("formArea").appendChild(div);
-}
-
-// 3. Cart
-function updateTotal(){
-let total=0;
-document.querySelectorAll(".item").forEach(item=>{
-const price=parseFloat(item.dataset.price);
-const qty=item.querySelector(".qty").value;
-total+=price*qty;
-});
-document.getElementById("total").innerText=total;
-}
-updateTotal();
-
-// 4. Sort Table
-let sortDirections = {};
-
-function sortTable(columnIndex) {
-    const table = document.getElementById("myTable");
-    const tbody = table.querySelector("tbody");
-    const rows = Array.from(tbody.querySelectorAll("tr"));
-
-    // Initialize column direction if first time
-    if (sortDirections[columnIndex] === undefined) {
-        sortDirections[columnIndex] = true; // first click = ascending
-    } else {
-        sortDirections[columnIndex] = !sortDirections[columnIndex];
+// Make sure elements exist before adding event listeners
+document.addEventListener("DOMContentLoaded", function() {
+    const nextBtn = document.getElementById("nextBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    
+    if (nextBtn) {
+        nextBtn.onclick = () => { 
+            imgIndex = (imgIndex + 1) % images.length; 
+            showImg(); 
+        };
     }
-
-    const asc = sortDirections[columnIndex];
-
-    rows.sort((a, b) => {
-        let x = a.cells[columnIndex].innerText.trim();
-        let y = b.cells[columnIndex].innerText.trim();
-
-        // Numeric sort
-        if (!isNaN(x) && !isNaN(y)) {
-            return asc ? Number(x) - Number(y) : Number(y) - Number(x);
-        }
-
-        // String sort
-        return asc
-            ? x.localeCompare(y)
-            : y.localeCompare(x);
-    });
-
-    // Reset arrows
-    document.querySelectorAll("#myTable th").forEach((th, i) => {
-        th.textContent = th.textContent.replace(" ▲", "").replace(" ▼", "");
-        if (i === columnIndex) {
-            th.textContent += asc ? " ▲" : " ▼";
-        }
-    });
-
-    // Re-append sorted rows
-    rows.forEach(row => tbody.appendChild(row));
-}
-
-// 5. Theme
-function setTheme(theme){
-document.body.className=theme;
-localStorage.setItem("theme",theme);
-}
-window.onload=()=>{
-const saved=localStorage.getItem("theme");
-if(saved) document.body.className=saved;
-}
-
-// 6. Sidebar
-const menu=["Dashboard","Users","Settings"];
-menu.forEach(item=>{
-  const li=document.createElement("li");
-  li.innerText=item;
-  document.getElementById("sidebar").appendChild(li);
+    
+    if (prevBtn) {
+        prevBtn.onclick = () => { 
+            imgIndex = (imgIndex - 1 + images.length) % images.length; 
+            showImg(); 
+        };
+    }
+    
+    // Start the carousel
+    showImg();
+    
+    // Auto-advance every 3 seconds
+    setInterval(() => { 
+        imgIndex = (imgIndex + 1) % images.length; 
+        showImg(); 
+    }, 3000);
 });
 
+        // 22. Scroll Progress
+        window.addEventListener("scroll", () => {
+            let winScroll = document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById("scrollProgress").style.width = (winScroll / height) * 100 + "%";
+        });
 
-// 7. Comments
-function addComment(){
-const text=document.getElementById("commentInput").value;
-if(!text) return;
-const div=document.createElement("div");
-div.innerHTML=`<p>${text}</p>
-<button onclick="reply(this)">Reply</button>
-<div class="comment"></div>`;
-document.getElementById("comments").appendChild(div);
-document.getElementById("commentInput").value="";
+        // 23. Parallax Effect
+        window.addEventListener("scroll", function() {
+            let scrollPosition = window.pageYOffset;
+            document.getElementById("parallaxSection").style.backgroundPositionY = scrollPosition * 0.5 + "px";
+        });
+
+        // 24. Skill Animation
+        window.addEventListener("scroll", () => {
+            document.querySelectorAll(".skill").forEach(skill => {
+                let rect = skill.getBoundingClientRect();
+                if (rect.top < window.innerHeight) {
+                    skill.style.background = "#28a745";
+                    skill.style.width = skill.dataset.skill + "%";
+                }
+            });
+        });
+
+        // 25. Floating Chat
+        document.getElementById("chatToggle").addEventListener("click", () => {
+            const box = document.getElementById("chatBox");
+            box.style.display = box.style.display === "none" ? "block" : "none";
+        });
+
+        document.getElementById("sendChat").addEventListener("click", sendMessage);
+        document.getElementById("chatInput").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") sendMessage();
+        });
+
+        function sendMessage() {
+            const message = document.getElementById("chatInput").value.trim();
+            if (!message) return;
+            appendMessage("You", message);
+            document.getElementById("chatInput").value = "";
+            setTimeout(() => appendMessage("Bot", "Thanks for your message!"), 800);
+        }
+
+        function appendMessage(sender, text) {
+            const div = document.createElement("div");
+            div.innerHTML = `<strong>${sender}:</strong> ${text}`;
+            document.getElementById("chatMessages").appendChild(div);
+            document.getElementById("chatMessages").scrollTop = document.getElementById("chatMessages").scrollHeight;
+        }
+
+        // 26. Typewriter
+        let w = "Hello Developer! Welcome to JavaScript Projects!";
+        let ci = 0;
+        setInterval(() => { 
+            if (ci < w.length) {
+                document.getElementById("type").innerText += w[ci++];
+            }
+        }, 100);
+
+        // 27. Modal
+        function openM() { document.getElementById("modal").style.display = "block"; }
+        function closeM() { document.getElementById("modal").style.display = "none"; }
+
+        // 28. Tooltip
+        function showTip(el) { 
+            const tip = document.createElement("span");
+            tip.className = "tooltip";
+            tip.innerText = " " + el.dataset.tip;
+            tip.style.background = "#333";
+            tip.style.color = "#fff";
+            tip.style.padding = "2px 5px";
+            tip.style.borderRadius = "3px";
+            tip.style.marginLeft = "5px";
+            el.appendChild(tip);
+        }
+        function hideTip(el) { 
+            if (el.lastChild.className === "tooltip") el.removeChild(el.lastChild);
+        }
+
+        // 29. Accordion
+        document.querySelectorAll(".accordion-header").forEach(header => {
+            header.addEventListener("click", function() {
+                const item = this.parentElement;
+                const content = item.querySelector(".accordion-content");
+                
+                document.querySelectorAll(".accordion-item").forEach(i => {
+                    if (i !== item) {
+                        i.classList.remove("active");
+                        i.querySelector(".accordion-content").style.maxHeight = null;
+                    }
+                });
+                
+                item.classList.toggle("active");
+                content.style.maxHeight = item.classList.contains("active") ? content.scrollHeight + "px" : null;
+            });
+        });
+
+        // 30. Fade
+        function fade() { document.body.style.opacity = "0.5"; setTimeout(() => document.body.style.opacity = "1", 500); }
+
+        // 31. Weather
+        document.getElementById("weather").innerText = "Chennai 32°C";
+
+        // 32. Voting System
+        const voteKey = "task32Votes";
+        const voteData = JSON.parse(localStorage.getItem(voteKey)) || {
+            JavaScript: 0, Python: 0, Java: 0, Cpp: 0
+        };
+        let selectedOption = null;
+
+        function renderVoteOptions() {
+            const container = document.getElementById("voteOptions");
+            container.innerHTML = "";
+            Object.keys(voteData).forEach(option => {
+                const div = document.createElement("div");
+                div.className = "vote-option";
+                div.innerHTML = `<label><input type="radio" name="vote" value="${option}"> ${option}</label>`;
+                container.appendChild(div);
+            });
+            
+            document.querySelectorAll('input[name="vote"]').forEach(radio => {
+                radio.addEventListener("change", function() { selectedOption = this.value; });
+            });
+        }
+
+        function submitVote() {
+            if (localStorage.getItem("task32Voted")) { alert("You already voted!"); return; }
+            if (!selectedOption) { alert("Please select an option!"); return; }
+            
+            voteData[selectedOption]++;
+            localStorage.setItem(voteKey, JSON.stringify(voteData));
+            localStorage.setItem("task32Voted", "true");
+            renderResults();
+        }
+
+        function renderResults() {
+            const resultsDiv = document.getElementById("voteResults");
+            resultsDiv.innerHTML = "";
+            const totalVotes = Object.values(voteData).reduce((a, b) => a + b, 0);
+            
+            Object.entries(voteData).forEach(([option, count]) => {
+                const percent = totalVotes ? ((count / totalVotes) * 100).toFixed(1) : 0;
+                const wrapper = document.createElement("div");
+                wrapper.innerHTML = `<strong>${option}</strong>
+                    <div class="vote-bar-container">
+                        <div class="vote-bar" style="width:${percent}%"></div>
+                        <span class="vote-percent">${percent}%</span>
+                    </div>`;
+                resultsDiv.appendChild(wrapper);
+            });
+        }
+        renderVoteOptions();
+        renderResults();
+
+        // 33. Quiz App
+        const quizData = [
+            { question: "Which language runs in browser?", options: ["Python", "Java", "C++", "JavaScript"], answer: "JavaScript" },
+            { question: "What does CSS stand for?", options: ["Color Style Sheet", "Cascading Style Sheets", "Computer Style Sheet", "Creative Style Sheet"], answer: "Cascading Style Sheets" },
+            { question: "Which is a backend language?", options: ["HTML", "CSS", "JavaScript", "Python"], answer: "Python" }
+        ];
+        let currentIndex = 0, score = 0, timer, timeLeft = 15;
+
+        function startQuiz() {
+            currentIndex = 0; score = 0; timeLeft = 15;
+            document.getElementById("quizScore").innerText = "Score: 0";
+            loadQuestion(); startTimer();
+        }
+
+        function loadQuestion() {
+            const questionObj = quizData[currentIndex];
+            document.getElementById("quizQuestion").innerText = questionObj.question;
+            const optionsDiv = document.getElementById("quizOptions");
+            optionsDiv.innerHTML = "";
+            questionObj.options.forEach(option => {
+                const btn = document.createElement("button");
+                btn.className = "quiz-option";
+                btn.innerText = option;
+                btn.onclick = () => checkAnswer(option);
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected) {
+            clearInterval(timer);
+            if (selected === quizData[currentIndex].answer) score += 5;
+            else score -= 2;
+            document.getElementById("quizScore").innerText = "Score: " + score;
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < quizData.length) {
+                timeLeft = 15; loadQuestion(); startTimer();
+            } else {
+                endQuiz();
+            }
+        }
+
+        function startTimer() {
+            document.getElementById("quizTimer").innerText = "Time: " + timeLeft;
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById("quizTimer").innerText = "Time: " + timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    score -= 2;
+                    document.getElementById("quizScore").innerText = "Score: " + score;
+                    nextQuestion();
+                }
+            }, 1000);
+        }
+
+        function endQuiz() {
+            document.getElementById("quizQuestion").innerText = "Quiz Finished!";
+            document.getElementById("quizOptions").innerHTML = "";
+            document.getElementById("quizTimer").innerText = "";
+        }
+
+        // 34. Seat Booking
+        const seatPrice = 150;
+        const totalSeats = 40;
+        const bookingKey = "task34BookedSeats";
+        let bookedSeats = JSON.parse(localStorage.getItem(bookingKey)) || [];
+
+        function createSeats() {
+            const container = document.getElementById("seatContainer");
+            container.innerHTML = "";
+            for (let i = 1; i <= totalSeats; i++) {
+                const seat = document.createElement("div");
+                seat.classList.add("seat");
+                seat.dataset.seatNumber = i;
+                seat.innerText = i;
+                if (bookedSeats.includes(i)) seat.classList.add("booked");
+                seat.addEventListener("click", () => {
+                    if (!seat.classList.contains("booked")) {
+                        seat.classList.toggle("selected");
+                        updateSeatInfo();
+                    }
+                });
+                container.appendChild(seat);
+            }
+        }
+
+        function updateSeatInfo() {
+            const selectedSeats = document.querySelectorAll(".seat.selected");
+            document.getElementById("seatCount").innerText = selectedSeats.length;
+            document.getElementById("seatTotal").innerText = selectedSeats.length * seatPrice;
+        }
+
+        function confirmBooking() {
+            const selectedSeats = document.querySelectorAll(".seat.selected");
+            if (selectedSeats.length === 0) { alert("Please select at least one seat."); return; }
+            
+            selectedSeats.forEach(seat => bookedSeats.push(Number(seat.dataset.seatNumber)));
+            localStorage.setItem(bookingKey, JSON.stringify(bookedSeats));
+            alert("Booking Confirmed!");
+            createSeats();
+            updateSeatInfo();
+        }
+        createSeats();
+        updateSeatInfo();
+
+        // 35. Calendar
+        const monthDisplay = document.getElementById("calendarMonth");
+        const daysContainer = document.getElementById("calendarDays");
+        const datesContainer = document.getElementById("calendarDates");
+        const dayNames = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+        let currentDate = new Date();
+        let selectedDate = null;
+
+        function renderDays() {
+            daysContainer.innerHTML = "";
+            dayNames.forEach(day => {
+                const div = document.createElement("div");
+                div.innerText = day;
+                daysContainer.appendChild(div);
+            });
+        }
+
+        function renderCalendar() {
+            datesContainer.innerHTML = "";
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            monthDisplay.innerText = currentDate.toLocaleString("default", { month: "long" }) + " " + year;
+            
+            const firstDay = new Date(year, month, 1).getDay();
+            const totalDays = new Date(year, month + 1, 0).getDate();
+            
+            for (let i = 0; i < firstDay; i++) datesContainer.appendChild(document.createElement("div"));
+            
+            for (let i = 1; i <= totalDays; i++) {
+                const dateDiv = document.createElement("div");
+                dateDiv.innerText = i;
+                const today = new Date();
+                
+                if (i === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                    dateDiv.classList.add("today");
+                }
+                if (selectedDate && i === selectedDate.getDate() && month === selectedDate.getMonth() && year === selectedDate.getFullYear()) {
+                    dateDiv.classList.add("selected-date");
+                }
+                
+                dateDiv.addEventListener("click", () => {
+                    selectedDate = new Date(year, month, i);
+                    renderCalendar();
+                });
+                datesContainer.appendChild(dateDiv);
+            }
+        }
+
+        function changeMonth(direction) {
+            currentDate.setMonth(currentDate.getMonth() + direction);
+            renderCalendar();
+        }
+        renderDays();
+        renderCalendar();
+
+        // 36. Invoice Generator
+        let invoiceItems = [];
+        const taxRate = 0.18;
+
+        function addItem() {
+            const name = document.getElementById("itemName").value.trim();
+            const qty = Number(document.getElementById("itemQty").value);
+            const price = Number(document.getElementById("itemPrice").value);
+            if (!name || qty <= 0 || price < 0) { alert("Please enter valid item details."); return; }
+            invoiceItems.push({ name, qty, price });
+            renderInvoice();
+            document.getElementById("itemName").value = "";
+            document.getElementById("itemQty").value = "";
+            document.getElementById("itemPrice").value = "";
+        }
+
+        function renderInvoice() {
+            const body = document.getElementById("invoiceBody");
+            body.innerHTML = "";
+            let subtotal = 0;
+            
+            invoiceItems.forEach((item, index) => {
+                const total = item.qty * item.price;
+                subtotal += total;
+                const row = document.createElement("tr");
+                row.innerHTML = `<td>${item.name}</td><td>${item.qty}</td><td>₹${item.price}</td><td>₹${total}</td>
+                    <td><button onclick="removeItem(${index})">X</button></td>`;
+                body.appendChild(row);
+            });
+            
+            const tax = subtotal * taxRate;
+            const grandTotal = subtotal + tax;
+            document.getElementById("subtotal").innerText = subtotal.toFixed(2);
+            document.getElementById("tax").innerText = tax.toFixed(2);
+            document.getElementById("grandTotal").innerText = grandTotal.toFixed(2);
+        }
+
+        function removeItem(index) {
+            invoiceItems.splice(index, 1);
+            renderInvoice();
+        }
+
+        // 37. Drag & Drop File Preview
+        const dropArea = document.getElementById("dropArea");
+        const fileInput = document.getElementById("fileInput");
+        const previewContainer = document.getElementById("previewContainer");
+
+        ["dragenter", "dragover", "dragleave", "drop"].forEach(event => {
+            dropArea.addEventListener(event, e => e.preventDefault());
+        });
+
+        dropArea.addEventListener("dragover", () => dropArea.classList.add("dragover"));
+        dropArea.addEventListener("dragleave", () => dropArea.classList.remove("dragover"));
+        
+        dropArea.addEventListener("drop", e => {
+            dropArea.classList.remove("dragover");
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener("change", e => handleFiles(e.target.files));
+
+        function handleFiles(files) {
+            previewContainer.innerHTML = "";
+            [...files].forEach(file => {
+                if (!file.type.startsWith("image/")) { alert("Only image files allowed!"); return; }
+                const img = document.createElement("img");
+                img.src = URL.createObjectURL(file);
+                previewContainer.appendChild(img);
+            });
+        }
+
+        // 38. Product Comparison
+        const compareProductsData = [
+            { id: 1, name: "Phone A", price: "₹15,000", battery: "4000mAh", camera: "48MP", storage: "64GB" },
+            { id: 2, name: "Phone B", price: "₹20,000", battery: "5000mAh", camera: "64MP", storage: "128GB" },
+            { id: 3, name: "Phone C", price: "₹25,000", battery: "6000mAh", camera: "108MP", storage: "256GB" }
+        ];
+
+        function renderProductList() {
+            const listDiv = document.getElementById("productList");
+            listDiv.innerHTML = "";
+            compareProductsData.forEach(product => {
+                const div = document.createElement("div");
+                div.innerHTML = `<label><input type="checkbox" value="${product.id}"> ${product.name}</label>`;
+                listDiv.appendChild(div);
+            });
+        }
+
+        function compareProducts() {
+            const selectedIds = [...document.querySelectorAll("#productList input:checked")].map(input => Number(input.value));
+            if (selectedIds.length < 2) { alert("Select at least 2 products to compare."); return; }
+            if (selectedIds.length > 3) { alert("You can compare up to 3 products only."); return; }
+            
+            const selected = compareProductsData.filter(p => selectedIds.includes(p.id));
+            const tableDiv = document.getElementById("comparisonTable");
+            tableDiv.innerHTML = "";
+            
+            let table = "<table border='1' cellpadding='5'>";
+            table += "<tr><th>Feature</th>" + selected.map(p => `<th>${p.name}</th>`).join("") + "</tr>";
+            ["price","battery","camera","storage"].forEach(feature => {
+                table += `<tr><td>${feature.toUpperCase()}</td>` + selected.map(p => `<td>${p[feature]}</td>`).join("") + "</tr>";
+            });
+            table += "</table>";
+            tableDiv.innerHTML = table;
+        }
+        renderProductList();
+
+        // 39. Checkbox Filter
+        function filter39() { alert("Filtered!"); }
+
+        // 40. Step Wizard
+        let st = 1;
+        function nextStep() { st++; document.getElementById("stepTxt").innerText = "Step " + st + " of 5"; if(st >=5) st=0; }
+
+        // 41. Simple Todo
+        function addTask41() {
+            let task = document.getElementById("task41").value;
+            if(task) document.getElementById("todo41").innerHTML += task + "<br>";
+        }
+
+        // 42. Dashboard (already has content)
+
+        // 43. Toast
+        function showToast() { 
+            let t = document.createElement("div"); 
+            t.className = "toast"; 
+            t.innerText = "Saved successfully!"; 
+            document.body.appendChild(t); 
+            setTimeout(() => t.remove(), 2000); 
+        }
+
+        // 44. Blog Filter
+        let blogs = ["JavaScript Tutorial", "HTML Basics", "CSS Styling", "React Guide", "Node.js Tips"];
+        function filterBlog(v) { 
+            document.getElementById("blog").innerHTML = blogs.filter(b => b.toLowerCase().includes(v.toLowerCase())).map(b => `<div>${b}</div>`).join(""); 
+        } 
+        filterBlog("");
+
+       // 45. Enhanced Price Calculator
+let shippingCost = 0;
+
+function toggleDiscount() {
+    const discountCheck = document.getElementById("discountCheck");
+    const discountInput = document.getElementById("discountPercent");
+    discountInput.disabled = !discountCheck.checked;
 }
 
-function reply(btn){
-const text=prompt("Reply:");
-if(!text) return;
-const p=document.createElement("p");
-p.innerText=text;
-btn.nextElementSibling.appendChild(p);
+function updateShipping() {
+    const shippingRadios = document.querySelectorAll('input[name="shipping"]:checked');
+    shippingCost = parseInt(shippingRadios[0]?.value) || 0;
 }
 
-// 8. Dropdown
-function toggleDropdown(){
-document.getElementById("options").classList.toggle("show");
-}
-function chooseOption(e){
-e.stopPropagation();
-document.getElementById("selected").innerText=e.target.innerText;
-document.getElementById("options").classList.remove("show");
+function priceCalc() {
+    // Get input values
+    let amount = parseFloat(document.getElementById("priceAmount").value) || 0;
+    let taxRate = parseFloat(document.getElementById("priceTax").value) || 0;
+    
+    // Calculate tax
+    let taxAmount = (amount * taxRate) / 100;
+    
+    // Calculate discount if applied
+    let discountAmount = 0;
+    if (document.getElementById("discountCheck").checked) {
+        let discountPercent = parseFloat(document.getElementById("discountPercent").value) || 0;
+        discountAmount = (amount * discountPercent) / 100;
+    }
+    
+    // Calculate final price
+    let subtotal = amount;
+    let afterDiscount = amount - discountAmount;
+    let afterTax = afterDiscount + taxAmount;
+    let total = afterTax + shippingCost;
+    
+    // Display results with formatting
+    const priceOut = document.getElementById("priceOut");
+    
+    priceOut.innerHTML = `
+        <h3 style="margin-top:0; color:#333;">Price Breakdown</h3>
+        
+        <table style="width:100%; border-collapse:collapse;">
+            <tr>
+                <td style="padding:8px; border-bottom:1px solid #ddd;">Base Amount:</td>
+                <td style="padding:8px; border-bottom:1px solid #ddd; text-align:right; font-weight:bold;">$${amount.toFixed(2)}</td>
+            </tr>
+            
+            ${discountAmount > 0 ? `
+            <tr style="color:#28a745;">
+                <td style="padding:8px; border-bottom:1px solid #ddd;">Discount (${document.getElementById("discountPercent").value}%):</td>
+                <td style="padding:8px; border-bottom:1px solid #ddd; text-align:right;">-$${discountAmount.toFixed(2)}</td>
+            </tr>
+            ` : ''}
+            
+            <tr>
+                <td style="padding:8px; border-bottom:1px solid #ddd;">Subtotal after discount:</td>
+                <td style="padding:8px; border-bottom:1px solid #ddd; text-align:right;">$${afterDiscount.toFixed(2)}</td>
+            </tr>
+            
+            <tr>
+                <td style="padding:8px; border-bottom:1px solid #ddd;">Tax (${taxRate}%):</td>
+                <td style="padding:8px; border-bottom:1px solid #ddd; text-align:right;">+$${taxAmount.toFixed(2)}</td>
+            </tr>
+            
+            <tr>
+                <td style="padding:8px; border-bottom:1px solid #ddd;">Shipping:</td>
+                <td style="padding:8px; border-bottom:1px solid #ddd; text-align:right;">+$${shippingCost.toFixed(2)}</td>
+            </tr>
+            
+            <tr style="font-size:18px; background:#e9ecef;">
+                <td style="padding:10px; font-weight:bold;">TOTAL:</td>
+                <td style="padding:10px; text-align:right; font-weight:bold; color:#28a745;">$${total.toFixed(2)}</td>
+            </tr>
+        </table>
+        
+        ${total > 5000 ? '<p style="color:#28a745; margin-top:10px;">🎉 You qualify for free gift wrapping!</p>' : ''}
+        ${total < 100 ? '<p style="color:#dc3545; margin-top:10px;">⚠️ Minimum order $100 for delivery</p>' : ''}
+    `;
 }
 
-</script>
+function resetCalculator() {
+    document.getElementById("priceAmount").value = "1000";
+    document.getElementById("priceTax").value = "18";
+    document.getElementById("discountCheck").checked = false;
+    document.getElementById("discountPercent").disabled = true;
+    document.getElementById("discountPercent").value = "10";
+    document.querySelector('input[value="0"]').checked = true;
+    shippingCost = 0;
+    
+    priceOut.innerHTML = '<p style="color:#666;">Click Calculate to see price breakdown</p>';
+}
 
+// Initialize on page load
+resetCalculator();
+
+        // 46. Leaderboard
+        function rank() { document.getElementById("rankOut").innerHTML = "1. John (95)<br>2. Jane (92)<br>3. Bob (88)"; }
+
+        // 47. Tabs
+        window.onhashchange = () => { 
+            document.querySelectorAll(".tab").forEach(t => t.style.display = "none"); 
+            if (location.hash) document.querySelector(location.hash).style.display = "block"; 
+        };
+
+        // 48. Poll
+        function pollVote() { 
+            localStorage.poll = (Number(localStorage.poll) || 0) + 1; 
+            alert("Vote counted! Total votes: " + localStorage.poll);
+        }
+
+        // 49. Mini Chat
+        function miniChat() { 
+            let msg = document.getElementById("mini").value; 
+            if(msg) document.getElementById("miniOut").innerHTML += msg + "<br>"; 
+            document.getElementById("mini").value = ""; 
+        }
+
+        // 50. Back to Top (button already has onclick)
+    </script>
 </body>
+
 </html>
